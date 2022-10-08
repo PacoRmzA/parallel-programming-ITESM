@@ -38,6 +38,8 @@ int main(int argc, char *argv[]) {
             printf("ERROR; return code from pthread_create() is %d\n", rc);
             exit(-1);
         }
+    }
+    for (long t=0;t<NUM_THREADS;t++) {
         pthread_join(threads[t], NULL);
         totalCount += thread_counts[t];
     }
