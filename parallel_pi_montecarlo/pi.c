@@ -3,10 +3,10 @@
 #include <stdio.h>
 #include <time.h>
 #include <pthread.h>
-#define NUM_THREADS 16
 #define NUM_POINTS 1000000
 
-int thread_counts[NUM_THREADS];
+int NUM_THREADS;
+int* thread_counts;
 
 void* estimatePi(void* threadid) {
     int count = 0;
@@ -21,7 +21,10 @@ void* estimatePi(void* threadid) {
     pthread_exit(NULL);
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    NUM_THREADS = atoi(argv[1]);
+    int arr[NUM_THREADS];
+    thread_counts = arr;
     clock_t start, end;
     pthread_t threads[NUM_THREADS];
     int rc;
