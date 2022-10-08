@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <pthread.h>
-#define NUM_POINTS 1000000
+#define NUM_POINTS 100000000
 
 int NUM_THREADS;
 int* thread_counts;
@@ -25,13 +25,11 @@ int main(int argc, char *argv[]) {
     NUM_THREADS = atoi(argv[1]);
     int arr[NUM_THREADS];
     thread_counts = arr;
-    clock_t start, end;
     pthread_t threads[NUM_THREADS];
     int rc;
     int totalCount = 0;
-    double totalTime, piEstimate;
+    double piEstimate;
     srand(time(NULL));
-    start = clock();
     for(long t=0;t<NUM_THREADS;t++){
         rc = pthread_create(&threads[t], NULL, estimatePi, (void *)t);
         if (rc) {
@@ -44,8 +42,6 @@ int main(int argc, char *argv[]) {
         totalCount += thread_counts[t];
     }
     piEstimate = 4.0*totalCount/NUM_POINTS;
-    end = clock();
-    totalTime = ((double) (end-start)) / CLOCKS_PER_SEC;
-    printf("Estimation with %d threads done. Took %f seconds. Result: %f\n", NUM_THREADS, totalTime, piEstimate);
+    printf("Estimation with %d threads done. Result: %f\n", NUM_THREADS, piEstimate);
     return 0;
 }
